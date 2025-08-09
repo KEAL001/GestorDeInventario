@@ -1,5 +1,7 @@
 ﻿using GestorDeInventario.Data;
 using GestorDeInventario.Models;
+using GestorDeInventario.Services;
+using GestorDeInventario.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Windows;
@@ -14,7 +16,7 @@ namespace GestorDeInventario
         public UserManagementWindow()
         {
             InitializeComponent();
-            _context = new ApplicationDbContext();
+            _context = DbContextManager.Instance;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -33,6 +35,8 @@ namespace GestorDeInventario
             var userForm = new UserForm();
             userForm.ShowDialog();
             CargarUsuarios(); // Recarga la lista después de la acción
+            _context.SaveChanges();
+            DataRefreshService.NotifyDataRefreshed();
         }
 
         private void btnEditarUsuario_Click(object sender, RoutedEventArgs e)
@@ -47,6 +51,8 @@ namespace GestorDeInventario
             {
                 MessageBox.Show("Por favor, selecciona un usuario para editar.", "Error");
             }
+            _context.SaveChanges();
+            DataRefreshService.NotifyDataRefreshed();
         }
 
         private void btnEliminarUsuario_Click(object sender, RoutedEventArgs e)
@@ -61,6 +67,8 @@ namespace GestorDeInventario
                     CargarUsuarios();
                 }
             }
+            _context.SaveChanges();
+            DataRefreshService.NotifyDataRefreshed();
         }
     }
 }

@@ -55,7 +55,7 @@ namespace GestorDeInventario
             }
 
             string tipo = cmbTipoTransaccion.SelectedValue.ToString();
-            string comentarios = txtComentarios.Text;
+            string comentarios = txtComentarios.Text.ToUpper();
             decimal costoUnitario = 0; // El costo unitario es siempre 0, según la nueva regla de negocio.
 
             try

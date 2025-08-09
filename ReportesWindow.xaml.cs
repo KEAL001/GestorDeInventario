@@ -20,8 +20,7 @@ namespace GestorDeInventario
         public ReportesWindow()
         {
             InitializeComponent();
-            _context = new ApplicationDbContext();
-            // Asegúrate de que el contexto de licencia esté configurado para EPPlus
+            _context = DbContextManager.Instance;
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
         }
 

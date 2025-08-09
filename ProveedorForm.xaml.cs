@@ -1,5 +1,6 @@
 ﻿using GestorDeInventario.Data;
 using GestorDeInventario.Models;
+using GestorDeInventario.Utils;
 using System.Windows;
 
 namespace GestorDeInventario
@@ -53,6 +54,7 @@ namespace GestorDeInventario
                 }
             }
             _context.SaveChanges();
+            DataRefreshService.NotifyDataRefreshed();
             this.Close();
         }
 

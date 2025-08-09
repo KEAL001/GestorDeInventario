@@ -1,5 +1,7 @@
 ﻿using GestorDeInventario.Data;
 using GestorDeInventario.Models;
+using GestorDeInventario.Services;
+using GestorDeInventario.Utils;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +15,7 @@ namespace GestorDeInventario
         public CategoriaManagementWindow()
         {
             InitializeComponent();
-            _context = new ApplicationDbContext();
+            _context = DbContextManager.Instance;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -31,6 +33,8 @@ namespace GestorDeInventario
             var categoriaForm = new CategoriaForm();
             categoriaForm.ShowDialog();
             CargarCategorias();
+            _context.SaveChanges();
+            DataRefreshService.NotifyDataRefreshed();
         }
 
         private void btnEditar_Click(object sender, RoutedEventArgs e)
@@ -45,6 +49,8 @@ namespace GestorDeInventario
             {
                 MessageBox.Show("Por favor, selecciona una categoría para editar.", "Error");
             }
+            _context.SaveChanges();
+            DataRefreshService.NotifyDataRefreshed();
         }
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
@@ -59,6 +65,9 @@ namespace GestorDeInventario
                     CargarCategorias();
                 }
             }
+            _context.SaveChanges();
+            DataRefreshService.NotifyDataRefreshed();
         }
+
     }
 }

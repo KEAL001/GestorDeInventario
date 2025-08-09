@@ -1,10 +1,11 @@
 ﻿using GestorDeInventario.Data;
+using GestorDeInventario.Services;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml; // Asegúrate de que esta directiva esté aquí
 using System.Configuration;
 using System.Data;
-using System.Windows;
-using OfficeOpenXml; // Asegúrate de que esta directiva esté aquí
 using System.Linq;
+using System.Windows;
 
 namespace GestorDeInventario
 {
@@ -24,6 +25,11 @@ namespace GestorDeInventario
             // Muestra la ventana de login al inicio
            // var loginWindow = new LoginWindow();
            // loginWindow.Show();
+        }
+        protected override void OnExit(ExitEventArgs e)
+        {
+            DbContextManager.DisposeContext();
+            base.OnExit(e);
         }
     }
 }

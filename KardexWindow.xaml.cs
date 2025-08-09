@@ -17,7 +17,7 @@ namespace GestorDeInventario
         public KardexWindow()
         {
             InitializeComponent();
-            _context = new ApplicationDbContext();
+            _context = DbContextManager.Instance;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -99,12 +99,15 @@ namespace GestorDeInventario
 
                     // Recarga el kardex después de registrar una transacción
                     CargarKardex(productoSeleccionado.ID);
+                    
                 }
+                DataRefreshService.NotifyDataRefreshed();
             }
             else
             {
                 MessageBox.Show("Por favor, selecciona un producto de la lista de resultados.");
             }
+            DataRefreshService.NotifyDataRefreshed();
         }
         private void txtBuscarProducto_KeyDown(object sender, KeyEventArgs e)
         {

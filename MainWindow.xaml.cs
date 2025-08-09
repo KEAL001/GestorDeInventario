@@ -20,19 +20,16 @@ namespace GestorDeInventario
         public MainWindow()
         {
             InitializeComponent();
-            _context = new ApplicationDbContext();
-            _context.Database.EnsureCreated();
+            _context = DbContextManager.Instance; // Usar contexto singleton  
             _productosObservable = new ObservableCollection<ProductoViewModel>();
             dgProductos.ItemsSource = _productosObservable;
 
-            // Suscribimos la ventana al servicio de notificación
             DataRefreshService.DataRefreshed += (sender, e) => CargarProductos();
-
         }
         protected override void OnClosed(EventArgs e)
         {
             DataRefreshService.DataRefreshed -= (sender, e) => CargarProductos();
-            _context.Dispose();
+            // NO disponer el contexto aquí, ya que es compartido  
             base.OnClosed(e);
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -85,8 +82,6 @@ namespace GestorDeInventario
             
         }
 
-        // En MainWindow.xaml.cs
-
         private void btnEditarProducto_Click(object sender, RoutedEventArgs e)
         {
             if (dgProductos.SelectedItem is ProductoViewModel productoSeleccionado)
@@ -97,15 +92,9 @@ namespace GestorDeInventario
                     var productoForm = new ProductoForm(productoReal);
                     if (productoForm.ShowDialog() == true)
                     {
-                        productoSeleccionado.Nombre = productoReal.Nombre;
-                        productoSeleccionado.SKU = productoReal.SKU;
-                        productoSeleccionado.PrecioVenta = productoReal.PrecioVenta;
-                        productoSeleccionado.CostoCompra = productoReal.CostoCompra;
-                        productoSeleccionado.StockMinimo = productoReal.StockMinimo;
-
-                        // Aquí usamos CategoriaID y ProveedorID para que coincidan con tu clase Producto
-                        productoSeleccionado.Categoria = _context.Categorias.Find(productoReal.CategoriaID)?.NombreCategoria;
-                        productoSeleccionado.Proveedor = _context.Proveedores.Find(productoReal.ProveedorID)?.NombreProveedor;
+                        _context.SaveChanges();
+                        DataRefreshService.NotifyDataRefreshed();
+                        CargarProductos(); // Recargar toda la lista  
                     }
                 }
             }
@@ -113,10 +102,9 @@ namespace GestorDeInventario
             {
                 MessageBox.Show("Por favor, selecciona un producto para editar.", "Error");
             }
-            _context.SaveChanges();
-            DataRefreshService.NotifyDataRefreshed();
-            
         }
+
+
 
         private void btnEliminarProducto_Click(object sender, RoutedEventArgs e)
         {

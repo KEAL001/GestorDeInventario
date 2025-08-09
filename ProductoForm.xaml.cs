@@ -1,8 +1,10 @@
 ﻿using GestorDeInventario.Data;
 using GestorDeInventario.Models;
+using GestorDeInventario.Utils;
+using System;
 using System.Linq;
 using System.Windows;
-using System;
+using GestorDeInventario.Services;
 
 namespace GestorDeInventario
 {
@@ -14,7 +16,7 @@ namespace GestorDeInventario
         public ProductoForm()
         {
             InitializeComponent();
-            _context = new ApplicationDbContext();
+            _context = DbContextManager.Instance; // Usar contexto singleton  
             CargarDatos();
         }
 
@@ -26,7 +28,21 @@ namespace GestorDeInventario
             txtStockMinimo.Text = producto.StockMinimo.ToString();
             cmbCategoria.SelectedValue = producto.CategoriaID;
             cmbProveedor.SelectedValue = producto.ProveedorID;
-            // El SKU no se edita, por lo que no lo cargamos
+        }
+
+        // AGREGA este nuevo constructor para recibir contexto  
+        public ProductoForm(Producto producto, ApplicationDbContext context)
+        {
+            InitializeComponent();
+            _context = context; // Usar el contexto pasado  
+            CargarDatos();
+
+            _productoId = producto.ID;
+            txtNombre.Text = producto.Nombre;
+            txtDescripcion.Text = producto.Descripcion;
+            txtStockMinimo.Text = producto.StockMinimo.ToString();
+            cmbCategoria.SelectedValue = producto.CategoriaID;
+            cmbProveedor.SelectedValue = producto.ProveedorID;
         }
 
         private void CargarDatos()
@@ -79,8 +95,10 @@ namespace GestorDeInventario
                     productoExistente.CategoriaID = (int)cmbCategoria.SelectedValue;
                     productoExistente.ProveedorID = (int)cmbProveedor.SelectedValue;
                     productoExistente.StockMinimo = stockMinimo;
+
                 }
             }
+            DataRefreshService.NotifyDataRefreshed();
             _context.SaveChanges();
             this.Close();
         }

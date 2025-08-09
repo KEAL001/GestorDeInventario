@@ -1,5 +1,7 @@
 ﻿using GestorDeInventario.Data;
 using GestorDeInventario.Models;
+using GestorDeInventario.Services;
+using GestorDeInventario.Utils;
 using System.Windows;
 
 namespace GestorDeInventario
@@ -12,7 +14,7 @@ namespace GestorDeInventario
         public CategoriaForm()
         {
             InitializeComponent();
-            _context = new ApplicationDbContext();
+            _context = DbContextManager.Instance;
         }
 
         // Constructor para edición
@@ -46,6 +48,7 @@ namespace GestorDeInventario
                 }
             }
             _context.SaveChanges();
+            DataRefreshService.NotifyDataRefreshed();
             this.Close();
         }
 
