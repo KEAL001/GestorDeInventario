@@ -1,0 +1,34 @@
+﻿<Window x:Class="GestorDeInventario.ReportesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Reportes de Inventario" Height="600" Width="1000" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Label Content="Selecciona un reporte:" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cmbReportes" Width="200" Margin="10,0,0,0" SelectionChanged="cmbReportes_SelectionChanged">
+                    <ComboBoxItem Content="Inventario por Categoría"/>
+                    <ComboBoxItem Content="Productos bajo Stock Mínimo"/>
+                    <ComboBoxItem Content="Movimientos de Inventario (Rango de Fechas)"/>
+                    <ComboBoxItem Content="Productos con Características"/>
+                </ComboBox>
+                <Button Content="Exportar a Excel" Width="120" Margin="10,0,0,0" Click="btnExportar_Click"/>
+            </StackPanel>
+
+            <StackPanel x:Name="pnlFiltroFechas" Orientation="Horizontal" Visibility="Collapsed">
+                <Label Content="Desde:"/>
+                <DatePicker x:Name="dpFechaInicio" Width="120" Margin="5"/>
+                <Label Content="Hasta:"/>
+                <DatePicker x:Name="dpFechaFin" Width="120" Margin="5"/>
+                <Button Content="Generar" Width="80" Margin="10,0,0,0" Click="btnGenerar_Click"/>
+            </StackPanel>
+        </StackPanel>
+
+        <DataGrid x:Name="dgReportes" Grid.Row="1" Margin="10,0,10,10" AutoGenerateColumns="True" CanUserAddRows="False" IsReadOnly="True"/>
+    </Grid>
+</Window>

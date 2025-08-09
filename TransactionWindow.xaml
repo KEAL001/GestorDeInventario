@@ -1,0 +1,40 @@
+﻿<Window x:Class="GestorDeInventario.TransactionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Registrar Transacción" Height="350" Width="400">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="Producto ID:" VerticalAlignment="Center"/>
+        <Label x:Name="lblProductoId" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="5"/>
+        
+        <Label Grid.Row="1" Grid.Column="0" Content="Tipo de Transacción:" VerticalAlignment="Center"/>
+        <ComboBox x:Name="cmbTipoTransaccion" Grid.Row="1" Grid.Column="1" Margin="5" SelectionChanged="cmbTipoTransaccion_SelectionChanged"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="Cantidad:" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtCantidad" Grid.Row="2" Grid.Column="1" Margin="5" PreviewTextInput="TextBox_PreviewTextInput"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="Costo Unitario:" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtCostoUnitario" Grid.Row="3" Grid.Column="1" Margin="5" PreviewTextInput="TextBox_PreviewTextInput"/>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="Comentarios:" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtComentarios" Grid.Row="4" Grid.Column="1" Margin="5"/>
+
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button x:Name="btnGuardar" Content="Guardar" Width="100" Margin="5" Click="btnGuardar_Click"/>
+            <Button x:Name="btnCancelar" Content="Cancelar" Width="100" Margin="5" Click="btnCancelar_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,26 @@
+﻿<Window x:Class="GestorDeInventario.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login" Height="250" Width="350">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="118*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="pack://application:,,,/Images/logo.png" Stretch="Uniform"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="75,0,0,0">
+            <Label Content="Nombre de Usuario:" FontSize="18" FontWeight="Bold"/>
+            <TextBox x:Name="txtNombreUsuario" Width="200" Margin="0,0,0,10"/>
+            <Label Content="Contraseña:" FontSize="18" FontWeight="Bold"/>
+            <PasswordBox x:Name="txtContrasena" Width="200" KeyDown="txtContrasena_KeyDown"/>
+            <Button x:Name="btnIniciarSesiOn" Content="Iniciar Sesion" Width="100" Margin="0,20,0,0" Click="btnIniciarSesion_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

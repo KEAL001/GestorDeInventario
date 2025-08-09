@@ -1,0 +1,44 @@
+﻿<Window x:Class="GestorDeInventario.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModels="clr-namespace:GestorDeInventario.ViewModels"
+        Title="Gestor de Inventario" Height="600" Width="1000" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <Button x:Name="btnAgregarProducto" Content="&#xf067;  Agregar" Margin="5" Padding="10" Click="btnAgregarProducto_Click"/>
+            <Button x:Name="btnEditarProducto" Content="&#xf044;  Editar" Margin="5" Padding="10" IsEnabled="False" Click="btnEditarProducto_Click"/>
+            <Button x:Name="btnEliminarProducto" Content="&#xf2ed;  Eliminar" Margin="5" Padding="10" IsEnabled="False" Click="btnEliminarProducto_Click"/>
+            <Button x:Name="btnGestionProveedores" Content="&#xf466;  Proveedores" Margin="5" Padding="10" Click="btnGestionProveedores_Click"/>
+            <Button x:Name="btnGestionCategorias" Content="&#xf02b;  Categorías" Margin="5" Padding="10" Click="btnGestionCategorias_Click"/>
+            <Button x:Name="btnKardex" Content="&#xf483;  Kardex" Margin="5" Padding="10" Click="btnKardex_Click"/>
+            <Button x:Name="btnReportes" Content="&#xf0f6;  Reportes" Margin="5" Padding="10" Click="btnReportes_Click"/>
+            <Button x:Name="btnGestionUsuarios" Content="&#xf0c0;  Usuarios" Margin="5" Padding="10" Click="btnGestionUsuarios_Click" Visibility="Collapsed"/>
+            <Button x:Name="btnCerrarSesion" Content="&#xf2f5;  Cerrar Sesión" Margin="5" Padding="10" Click="btnCerrarSesion_Click"/>
+        </StackPanel>
+
+        <DataGrid x:Name="dgProductos" Grid.Row="1" Margin="10" 
+                  IsReadOnly="True" AutoGenerateColumns="False" 
+                  SelectionMode="Single"
+                  SelectionChanged="dgProductos_SelectionChanged">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Alerta" Binding="{Binding AlertaStock}" IsReadOnly="True" Width="50" />
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                <DataGridTextColumn Header="SKU" Binding="{Binding SKU}" Width="*"/>
+                <DataGridTextColumn Header="Stock Actual" Binding="{Binding StockActual}" Width="*"/>
+                <DataGridTextColumn Header="Stock Mínimo" Binding="{Binding StockMinimo}" Width="*"/>
+                <DataGridTextColumn Header="Categoría" Binding="{Binding Categoria}" Width="*"/>
+                <DataGridTextColumn Header="Proveedor" Binding="{Binding Proveedor}" Width="*"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+
+    </Grid>
+
+</Window>
