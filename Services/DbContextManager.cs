@@ -1,5 +1,5 @@
 ﻿using GestorDeInventario.Data;
-
+//Linea de prueba de actualizacion
 namespace GestorDeInventario.Services
 {
     public class DbContextManager
