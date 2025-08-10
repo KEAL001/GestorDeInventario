@@ -34,21 +34,29 @@ namespace GestorDeInventario
                     .Include(u => u.Rol)
                     .FirstOrDefault(u => u.NombreUsuario == nombreUsuario);
 
-                if (usuario != null && BCrypt.Net.BCrypt.Verify(contrasena, usuario.ContraseñaHash))
+                // MODIFICAR ESTA LÍNEA: Agregar verificación de usuario activo  
+                if (usuario != null && usuario.Activo && BCrypt.Net.BCrypt.Verify(contrasena, usuario.ContraseñaHash))
                 {
                     SessionManager.IniciarSesion(usuario);
-                   // MessageBox.Show($"Bienvenido, {usuario.NombreUsuario}.", "Inicio de Sesión Exitoso", MessageBoxButton.OK, MessageBoxImage.Information);
-
                     var mainWindow = new MainWindow();
                     mainWindow.Show();
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Nombre de usuario o contraseña incorrectos.", "Error de Autenticación", MessageBoxButton.OK, MessageBoxImage.Error);
+                    // Mensaje más específico para usuarios inactivos  
+                    if (usuario != null && !usuario.Activo)
+                    {
+                        MessageBox.Show("Su cuenta ha sido desactivada. Contacte al administrador.", "Cuenta Inactiva", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nombre de usuario o contraseña incorrectos.", "Error de Autenticación", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
+        
 
         // Nuevo método para manejar el evento KeyDown
         private void txtContrasena_KeyDown(object sender, KeyEventArgs e)

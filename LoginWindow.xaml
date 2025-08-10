@@ -1,26 +1,113 @@
-﻿<Window x:Class="GestorDeInventario.LoginWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Login" Height="250" Width="350">
+﻿<Window x:Class="GestorDeInventario.LoginWindow"  
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+        Title="Gestor de Inventario - Iniciar Sesión"   
+        Height="600" Width="900"   
+        WindowStartupLocation="CenterScreen"  
+        ResizeMode="NoResize"  
+        Background="#F5F5F5">
+
+    <Window.Resources>
+        <!-- Definir FontAwesome si lo necesitas para iconos -->
+        <FontFamily x:Key="FontAwesome">pack://application:,,,/Fonts/fontawesome-free-5.15.4-desktop/otfs/Font Awesome 5 Free-Solid-900.otf#Font Awesome 5 Free Solid</FontFamily>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="57*"/>
-            <ColumnDefinition Width="118*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <ImageBrush ImageSource="pack://application:,,,/Images/logo.png" Stretch="Uniform"/>
-        </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="75,0,0,0">
-            <Label Content="Nombre de Usuario:" FontSize="18" FontWeight="Bold"/>
-            <TextBox x:Name="txtNombreUsuario" Width="200" Margin="0,0,0,10"/>
-            <Label Content="Contraseña:" FontSize="18" FontWeight="Bold"/>
-            <PasswordBox x:Name="txtContrasena" Width="200" KeyDown="txtContrasena_KeyDown"/>
-            <Button x:Name="btnIniciarSesiOn" Content="Iniciar Sesion" Width="100" Margin="0,20,0,0" Click="btnIniciarSesion_Click"/>
-        </StackPanel>
+        <!-- Panel Izquierdo - Branding con tu logo -->
+        <Border Grid.Column="0">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#2196F3" Offset="0"/>
+                    <GradientStop Color="#1976D2" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <!-- Tu logo existente -->
+                <Image Source="pack://application:,,,/Images/logo.png"   
+                       Width="120" Height="120"   
+                       Margin="0,0,0,20"/>
+
+                <TextBlock Text="GESTOR DE INVENTARIO"   
+                         FontSize="28" FontWeight="Bold" Foreground="White"   
+                         HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <TextBlock Text="Sistema de Gestión Profesional"   
+                         FontSize="16" Foreground="#E3F2FD"   
+                         HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Panel Derecho - Formulario de Login -->
+        <Border Grid.Column="1" Background="White" Padding="40">
+            <StackPanel VerticalAlignment="Center">
+                <!-- Header del Formulario -->
+                <TextBlock Text="Iniciar Sesión"   
+                         FontSize="24" FontWeight="Bold"   
+                         Foreground="#424242"   
+                         HorizontalAlignment="Center"   
+                         Margin="0,0,0,30"/>
+
+                <!-- Campo Usuario -->
+                <TextBlock Text="Nombre de Usuario:" FontWeight="SemiBold"   
+                         Foreground="#666" Margin="0,0,0,5" FontSize="14"/>
+                <Border BorderBrush="#E0E0E0" BorderThickness="1"   
+                        CornerRadius="5" Margin="0,0,0,20">
+                    <TextBox x:Name="txtNombreUsuario"   
+                           Padding="12,10" FontSize="14"  
+                           BorderThickness="0" Background="Transparent"/>
+                </Border>
+
+                <!-- Campo Contraseña -->
+                <TextBlock Text="Contraseña:" FontWeight="SemiBold"   
+                         Foreground="#666" Margin="0,0,0,5" FontSize="14"/>
+                <Border BorderBrush="#E0E0E0" BorderThickness="1"   
+                        CornerRadius="5" Margin="0,0,0,30">
+                    <PasswordBox x:Name="txtContrasena"   
+                               Padding="12,10" FontSize="14"  
+                               BorderThickness="0" Background="Transparent"  
+                               KeyDown="txtContrasena_KeyDown"/>
+                </Border>
+
+                <!-- Botón de Login -->
+                <Button x:Name="btnIniciarSesiOn"   
+                        Content="Iniciar Sesión"  
+                        FontFamily="Segoe UI"  
+                        Background="#2196F3" Foreground="White"  
+                        BorderThickness="0" Padding="0,15"  
+                        FontSize="14" FontWeight="SemiBold"  
+                        Cursor="Hand"  
+                        Click="btnIniciarSesion_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"   
+                                                CornerRadius="5"  
+                                                BorderThickness="0">
+                                            <ContentPresenter HorizontalAlignment="Center"   
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#1976D2"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#1565C0"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

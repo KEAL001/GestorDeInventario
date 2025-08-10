@@ -15,7 +15,7 @@
                     <ComboBoxItem Content="Inventario por Categoría"/>
                     <ComboBoxItem Content="Productos bajo Stock Mínimo"/>
                     <ComboBoxItem Content="Movimientos de Inventario (Rango de Fechas)"/>
-                    <ComboBoxItem Content="Productos con Características"/>
+                    <ComboBoxItem Content="Productos"/>
                 </ComboBox>
                 <Button Content="Exportar a Excel" Width="120" Margin="10,0,0,0" Click="btnExportar_Click"/>
             </StackPanel>

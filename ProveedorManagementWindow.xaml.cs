@@ -1,6 +1,7 @@
 ﻿using GestorDeInventario.Data;
 using GestorDeInventario.Models;
 using GestorDeInventario.Utils;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -60,17 +61,27 @@ namespace GestorDeInventario
         {
             if (dgProveedores.SelectedItem is Proveedor proveedor)
             {
-                MessageBoxResult result = MessageBox.Show($"¿Estás seguro de que quieres eliminar a {proveedor.NombreProveedor}?", "Confirmar Eliminación", MessageBoxButton.YesNo);
+                // Verificar si el proveedor tiene productos con transacciones de kardex  
+                var tieneTransacciones = _context.TransaccionesInventario
+                    .Include(t => t.Producto)
+                    .Any(t => t.Producto.ProveedorID == proveedor.ID);
+
+                if (tieneTransacciones)
+                {
+                    MessageBox.Show($"No se puede eliminar el proveedor '{proveedor.NombreProveedor}' porque tiene productos con transacciones de kardex registradas.",
+                                  "Eliminación no permitida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                MessageBoxResult result = MessageBox.Show($"¿Estás seguro de que quieres eliminar a {proveedor.NombreProveedor}?",
+                                                        "Confirmar Eliminación", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
                     _context.Proveedores.Remove(proveedor);
                     _context.SaveChanges();
-                    CargarProveedores(); // Recarga la lista después de eliminar
+                    CargarProveedores();
                 }
             }
-            _context.SaveChanges();
-            DataRefreshService.NotifyDataRefreshed();
-            
         }
     }
 }

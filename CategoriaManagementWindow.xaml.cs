@@ -2,6 +2,7 @@
 using GestorDeInventario.Models;
 using GestorDeInventario.Services;
 using GestorDeInventario.Utils;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -57,7 +58,20 @@ namespace GestorDeInventario
         {
             if (dgCategorias.SelectedItem is Categoria categoria)
             {
-                MessageBoxResult result = MessageBox.Show($"¿Estás seguro de que quieres eliminar la categoría '{categoria.NombreCategoria}'?", "Confirmar Eliminación", MessageBoxButton.YesNo);
+                // Verificar si la categoría tiene productos con transacciones de kardex  
+                var tieneTransacciones = _context.TransaccionesInventario
+                    .Include(t => t.Producto)
+                    .Any(t => t.Producto.CategoriaID == categoria.ID);
+
+                if (tieneTransacciones)
+                {
+                    MessageBox.Show($"No se puede eliminar la categoría '{categoria.NombreCategoria}' porque tiene productos con transacciones de kardex registradas.",
+                                  "Eliminación no permitida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                MessageBoxResult result = MessageBox.Show($"¿Estás seguro de que quieres eliminar la categoría '{categoria.NombreCategoria}'?",
+                                                        "Confirmar Eliminación", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
                     _context.Categorias.Remove(categoria);
@@ -65,8 +79,6 @@ namespace GestorDeInventario
                     CargarCategorias();
                 }
             }
-            _context.SaveChanges();
-            DataRefreshService.NotifyDataRefreshed();
         }
 
     }

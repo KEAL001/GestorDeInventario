@@ -10,6 +10,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
+
 namespace GestorDeInventario
 {
     public partial class MainWindow : Window
@@ -35,9 +36,15 @@ namespace GestorDeInventario
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CargarProductos();
-            if (SessionManager.UsuarioActual != null && SessionManager.UsuarioActual.Rol.NombreRol == "Admin")
+            if (SessionManager.UsuarioActual != null)
             {
-                btnGestionUsuarios.Visibility = Visibility.Visible;
+                // Actualizar el TextBlock con el nombre del usuario actual  
+                txtUsuarioActual.Text = SessionManager.UsuarioActual.NombreUsuario;
+
+                if (SessionManager.UsuarioActual.Rol.NombreRol == "Admin")
+                {
+                    btnGestionUsuarios.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -66,6 +73,7 @@ namespace GestorDeInventario
                     StockActual = inventarioService.ObtenerStockActual(p.ID)
                 });
             }
+            ActualizarContadorProductos();
         }
 
         private void btnAgregarProducto_Click(object sender, RoutedEventArgs e)
@@ -110,7 +118,19 @@ namespace GestorDeInventario
         {
             if (dgProductos.SelectedItem is ProductoViewModel productoSeleccionado)
             {
-                MessageBoxResult result = MessageBox.Show($"¿Estás seguro de que quieres eliminar el producto '{productoSeleccionado.Nombre}'?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                // Verificar si el producto tiene transacciones de kardex  
+                var tieneTransacciones = _context.TransaccionesInventario
+                    .Any(t => t.ProductoID == productoSeleccionado.ID);
+
+                if (tieneTransacciones)
+                {
+                    MessageBox.Show($"No se puede eliminar el producto '{productoSeleccionado.Nombre}' porque tiene transacciones de kardex registradas.",
+                                  "Eliminación no permitida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                MessageBoxResult result = MessageBox.Show($"¿Estás seguro de que quieres eliminar el producto '{productoSeleccionado.Nombre}'?",
+                                                        "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
                 if (result == MessageBoxResult.Yes)
                 {
@@ -121,8 +141,8 @@ namespace GestorDeInventario
                         {
                             _context.Productos.Remove(productoAEliminar);
                             _context.SaveChanges();
-
-                            // Eliminamos el objeto de la ObservableCollection, lo que actualiza el DataGrid
+                            DataRefreshService.NotifyDataRefreshed();
+                            // Eliminamos el objeto de la ObservableCollection, lo que actualiza el DataGrid  
                             _productosObservable.Remove(productoSeleccionado);
                         }
                     }
@@ -136,7 +156,6 @@ namespace GestorDeInventario
             {
                 MessageBox.Show("Por favor, selecciona un producto para eliminar.", "Error");
             }
-            
         }
 
         private void dgProductos_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -190,6 +209,13 @@ namespace GestorDeInventario
             var loginWindow = new LoginWindow();
             loginWindow.Show();
             this.Close();
+        }
+        private void ActualizarContadorProductos()
+        {
+            if (txtTotalProductos != null)
+            {
+                txtTotalProductos.Text = $"{_productosObservable.Count} productos";
+            }
         }
     }
 }

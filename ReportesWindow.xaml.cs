@@ -45,7 +45,7 @@ namespace GestorDeInventario
                 case "Productos bajo Stock Mínimo":
                     GenerarReporteStockMinimo();
                     break;
-                case "Productos con Características":
+                case "Productos":
                     GenerarReporteProductosDetallado();
                     break;
                 case "Movimientos de Inventario (Rango de Fechas)":

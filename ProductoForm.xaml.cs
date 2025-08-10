@@ -1,10 +1,11 @@
 ﻿using GestorDeInventario.Data;
 using GestorDeInventario.Models;
+using GestorDeInventario.Services;
 using GestorDeInventario.Utils;
 using System;
 using System.Linq;
 using System.Windows;
-using GestorDeInventario.Services;
+using System.Windows.Input;
 
 namespace GestorDeInventario
 {
@@ -124,6 +125,15 @@ namespace GestorDeInventario
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private void txtStockMinimo_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Si la tecla presionada es Enter
+            if (e.Key == Key.Enter)
+            {
+                // Llamamos al método de inicio de sesión
+                btnGuardar_Click(sender, e);
+            }
         }
     }
 }
