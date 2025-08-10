@@ -36,5 +36,8 @@ namespace GestorDeInventario.Models
         public int ProveedorID { get; set; }
         [ForeignKey("ProveedorID")]
         public Proveedor Proveedor { get; set; }
+
+        [NotMapped]
+        public int StockActual { get; set; }
     }
 }

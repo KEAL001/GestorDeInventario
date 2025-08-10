@@ -1,30 +1,135 @@
-﻿<Window x:Class="GestorDeInventario.ProveedorForm"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GestorDeInventario"
-        mc:Ignorable="d"
-        Title="Gestión de Proveedor" Height="250" Width="400">
+﻿<Window x:Class="GestorDeInventario.ProveedorForm"  
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+        Title="Gestión de Proveedor"   
+        Height="529" Width="650"   
+        WindowStartupLocation="CenterScreen"  
+        ResizeMode="CanResize"  
+        MinHeight="450" MinWidth="600"  
+        Background="#F8F8F8">
+
+    <Window.Resources>
+        <!-- Estilos Profesionales -->
+        <Style x:Key="ProfessionalButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#4A90E2"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#357ABD"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#357ABD"/>
+                    <Setter Property="BorderBrush" Value="#2E6DA4"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#2E6DA4"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CancelButtonStyle" TargetType="Button" BasedOn="{StaticResource ProfessionalButtonStyle}">
+            <Setter Property="Background" Value="#D9534F"/>
+            <Setter Property="BorderBrush" Value="#D43F3A"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#D43F3A"/>
+                    <Setter Property="BorderBrush" Value="#C9302C"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Nombre del Proveedor:"/>
-        <TextBox x:Name="txtNombreProveedor" Grid.Row="0" Grid.Column="1" Margin="5"/>
+        <!-- Header Profesional -->
+        <Border Grid.Row="0" Background="#2C3E50" BorderBrush="#34495E" BorderThickness="1" Padding="20,12" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Gestión de Proveedor"   
+                         FontSize="18" FontWeight="Bold"   
+                         Foreground="White"   
+                         HorizontalAlignment="Left"/>
+                <TextBlock Text="Crear o editar información del proveedor"   
+                         FontSize="12" Foreground="#BDC3C7"   
+                         Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="Contacto:"/>
-        <TextBox x:Name="txtContacto" Grid.Row="1" Grid.Column="1" Margin="5"/>
+        <!-- Formulario Principal -->
+        <Border Grid.Row="1" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Padding="30,25">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-        <Button x:Name="btnGuardar" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Guardar" Margin="5" Click="btnGuardar_Click"/>
-        <Button x:Name="btnCancelar" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="Cancelar" Margin="5" Click="btnCancelar_Click"/>
+                    <!-- Campo Nombre del Proveedor -->
+                    <Label Grid.Row="0" Grid.Column="0" Content="Nombre del Proveedor:"   
+                           FontSize="13" FontWeight="SemiBold" Foreground="#333333"   
+                           VerticalAlignment="Center" Padding="0,0,15,0"/>
+                    <Border Grid.Row="0" Grid.Column="1" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,8,0,15">
+                        <TextBox x:Name="txtNombreProveedor"   
+                               Padding="12,8" FontSize="13"  
+                               BorderThickness="0" Background="White"  
+                               FontFamily="Segoe UI" MinHeight="30"/>
+                    </Border>
+
+                    <!-- Campo Contacto -->
+                    <Label Grid.Row="1" Grid.Column="0" Content="Contacto:"   
+                           FontSize="13" FontWeight="SemiBold" Foreground="#333333"   
+                           VerticalAlignment="Center" Padding="0,0,15,0"/>
+                    <Border Grid.Row="1" Grid.Column="1" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,8,0,20">
+                        <TextBox x:Name="txtContacto"   
+                               Padding="12,8" FontSize="13"  
+                               BorderThickness="0" Background="White"  
+                               FontFamily="Segoe UI" MinHeight="30"/>
+                    </Border>
+
+                    <!-- Información Adicional -->
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"   
+                            Background="#F8F9FA" BorderBrush="#E0E0E0" BorderThickness="1"   
+                            Padding="15,12" Margin="0,10,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Información del Sistema:" FontWeight="SemiBold" FontSize="12" Foreground="#666666" Margin="0,0,0,8"/>
+                            <TextBlock Text="• El nombre del proveedor es obligatorio"   
+                                     FontSize="11" Foreground="#666666" Margin="0,0,0,4"/>
+                            <TextBlock Text="• Los datos se convertirán automáticamente a mayúsculas"   
+                                     FontSize="11" Foreground="#666666" Margin="0,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Botones de Acción -->
+        <Border Grid.Row="2" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Padding="20,15" Margin="0,20,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnGuardar"   
+                        Style="{StaticResource ProfessionalButtonStyle}"  
+                        Content="Guardar"   
+                        Width="120" Height="35"  
+                        Click="btnGuardar_Click"/>
+
+                <Button x:Name="btnCancelar"   
+                        Style="{StaticResource CancelButtonStyle}"  
+                        Content="Cancelar"   
+                        Width="120" Height="35"  
+                        Click="btnCancelar_Click"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

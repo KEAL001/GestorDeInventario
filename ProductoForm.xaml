@@ -1,31 +1,176 @@
-﻿<Window x:Class="GestorDeInventario.ProductoForm" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Gestión de Producto" Height="400" Width="450">
-    <Grid Margin="20">
+﻿<Window x:Class="GestorDeInventario.ProductoForm"  
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+        Title="Gestión de Producto"   
+        Height="578" Width="600"   
+        WindowStartupLocation="CenterScreen"  
+        ResizeMode="NoResize"  
+        Background="#F8F8F8">
+
+    <Window.Resources>
+        <!-- Estilos Profesionales -->
+        <Style x:Key="ProfessionalButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#4A90E2"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#357ABD"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#357ABD"/>
+                    <Setter Property="BorderBrush" Value="#2E6DA4"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#2E6DA4"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CancelButtonStyle" TargetType="Button" BasedOn="{StaticResource ProfessionalButtonStyle}">
+            <Setter Property="Background" Value="#D9534F"/>
+            <Setter Property="BorderBrush" Value="#D43F3A"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#D43F3A"/>
+                    <Setter Property="BorderBrush" Value="#C9302C"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Nombre:" VerticalAlignment="Center"/>
-        <TextBox x:Name="txtNombre" Grid.Row="0" Grid.Column="1" Margin="5"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="Descripción:" VerticalAlignment="Center"/>
-        <TextBox x:Name="txtDescripcion" Grid.Row="1" Grid.Column="1" Margin="5"/>
-        <Label Grid.Row="2" Grid.Column="0" Content="Categoría:" VerticalAlignment="Center"/>
-        <ComboBox x:Name="cmbCategoria" Grid.Row="2" Grid.Column="1" Margin="5" DisplayMemberPath="NombreCategoria" SelectedValuePath="ID"/>
-        <Label Grid.Row="3" Grid.Column="0" Content="Proveedor:" VerticalAlignment="Center"/>
-        <ComboBox x:Name="cmbProveedor" Grid.Row="3" Grid.Column="1" Margin="5" DisplayMemberPath="NombreProveedor" SelectedValuePath="ID"/>
-        <Label Grid.Row="4" Grid.Column="0" Content="Stock Mínimo:" VerticalAlignment="Center"/>
-        <TextBox x:Name="txtStockMinimo" Grid.Row="4" Grid.Column="1" Margin="5" KeyDown="txtStockMinimo_KeyDown"/>
-        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button x:Name="btnGuardar" Content="Guardar" Width="100" Margin="5" Click="btnGuardar_Click"/>
-            <Button x:Name="btnCancelar" Content="Cancelar" Width="100" Margin="5" Click="btnCancelar_Click"/>
-        </StackPanel>
+
+        <!-- Header Profesional -->
+        <Border Grid.Row="0" Background="#2C3E50" BorderBrush="#34495E" BorderThickness="1" Padding="15,10" Margin="0,0,0,15">
+            <StackPanel>
+                <TextBlock Text="Gestión de Producto"   
+                         FontSize="16" FontWeight="Bold"   
+                         Foreground="White"   
+                         HorizontalAlignment="Left"/>
+                <TextBlock Text="Crear o editar información del producto"   
+                         FontSize="11" Foreground="#BDC3C7"   
+                         Margin="0,3,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Formulario Principal -->
+        <Border Grid.Row="1" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Padding="25">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,-7,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Campo Nombre -->
+                    <Label Grid.Row="0" Grid.Column="0" Content="Nombre:"   
+                           FontSize="12" FontWeight="SemiBold" Foreground="#333333"   
+                           VerticalAlignment="Center" Padding="0,0,10,0"/>
+                    <Border Grid.Row="0" Grid.Column="1" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,5">
+                        <TextBox x:Name="txtNombre"   
+                               Padding="8,6" FontSize="12"  
+                               BorderThickness="0" Background="White"  
+                               FontFamily="Segoe UI" Margin="0,0,-1,0"/>
+                    </Border>
+
+                    <!-- Campo Descripción -->
+                    <Label Grid.Row="1" Grid.Column="0" Content="Descripción:"   
+                           FontSize="12" FontWeight="SemiBold" Foreground="#333333"   
+                           VerticalAlignment="Top" Padding="0,8,10,0"/>
+                    <Border Grid.Row="1" Grid.Column="1" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,5">
+                        <TextBox x:Name="txtDescripcion"   
+                               Padding="8,6" FontSize="12"  
+                               BorderThickness="0" Background="White"  
+                               FontFamily="Segoe UI" Height="60"  
+                               TextWrapping="Wrap" AcceptsReturn="True"/>
+                    </Border>
+
+                    <!-- Campos en dos columnas -->
+                    <Label Grid.Row="2" Grid.Column="0" Content="Categoría:"   
+                           FontSize="12" FontWeight="SemiBold" Foreground="#333333"   
+                           VerticalAlignment="Center" Padding="0,0,10,0"/>
+                    <Border Grid.Row="2" Grid.Column="1" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,5">
+                        <ComboBox x:Name="cmbCategoria"   
+                                Padding="8,6" FontSize="12"  
+                                BorderThickness="0" Background="White"  
+                                FontFamily="Segoe UI"  
+                                DisplayMemberPath="NombreCategoria"   
+                                SelectedValuePath="ID"/>
+                    </Border>
+
+                    <!-- Proveedor -->
+                    <Label Grid.Row="3" Grid.Column="0" Content="Proveedor:"   
+                           FontSize="12" FontWeight="SemiBold" Foreground="#333333"   
+                           VerticalAlignment="Center" Padding="0,0,10,0"/>
+                    <Border Grid.Row="3" Grid.Column="1" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,5">
+                        <ComboBox x:Name="cmbProveedor"   
+                                Padding="8,6" FontSize="12"  
+                                BorderThickness="0" Background="White"  
+                                FontFamily="Segoe UI"  
+                                DisplayMemberPath="NombreProveedor"   
+                                SelectedValuePath="ID"/>
+                    </Border>
+
+                    <!-- Campo Stock Mínimo -->
+                    <Label Grid.Row="4" Grid.Column="0" Content="Stock Mínimo:"   
+                           FontSize="12" FontWeight="SemiBold" Foreground="#333333"   
+                           VerticalAlignment="Center" Padding="0,0,10,0"/>
+                    <Border Grid.Row="4" Grid.Column="1" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,5" Width="150" HorizontalAlignment="Left">
+                        <TextBox x:Name="txtStockMinimo"   
+                               Padding="8,6" FontSize="12"  
+                               BorderThickness="0" Background="White"  
+                               FontFamily="Segoe UI"  
+                               KeyDown="txtStockMinimo_KeyDown"/>
+                    </Border>
+
+                    <!-- Información Adicional -->
+                    <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"   
+                            Background="#F8F9FA" BorderBrush="#E0E0E0" BorderThickness="1"   
+                            Padding="12" Margin="0,15,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Información del Sistema:" FontWeight="SemiBold" FontSize="11" Foreground="#666666" Margin="0,0,0,5"/>
+                            <TextBlock Text="• El SKU se generará automáticamente basado en el nombre, categoría y descripción"   
+                                     FontSize="10" Foreground="#666666" Margin="0,0,0,3"/>
+                            <TextBlock Text="• Los nombres se convertirán automáticamente a mayúsculas"   
+                                     FontSize="10" Foreground="#666666" Margin="0,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Botones de Acción -->
+        <Border Grid.Row="2" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15,10" Margin="0,15,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnGuardar"   
+                        Style="{StaticResource ProfessionalButtonStyle}"  
+                        Content="Guardar"   
+                        Width="100"  
+                        Click="btnGuardar_Click"/>
+
+                <Button x:Name="btnCancelar"   
+                        Style="{StaticResource CancelButtonStyle}"  
+                        Content="Cancelar"   
+                        Width="100"  
+                        Click="btnCancelar_Click"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

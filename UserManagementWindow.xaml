@@ -2,134 +2,101 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
         Title="Gestión de Usuarios"   
-        Height="700" Width="1000"   
+        Height="600" Width="900"   
         WindowStartupLocation="CenterScreen"  
-        Background="#F8F9FA"  
+        Background="#F5F5F5"  
         Loaded="Window_Loaded">
 
     <Window.Resources>
-        <!-- Estilos Modernos -->
-        <Style x:Key="ModernButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#2196F3"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="15,10"/>
-            <Setter Property="Margin" Value="8,5"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <!-- Estilos Conservadores -->
+        <Style x:Key="ConservativeButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#E0E0E0"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"   
-                                CornerRadius="8" BorderThickness="0">
-                            <Border.Effect>
-                                <DropShadowEffect Color="#000000" Direction="270"   
-                                                ShadowDepth="2" BlurRadius="8" Opacity="0.2"/>
-                            </Border.Effect>
-                            <ContentPresenter HorizontalAlignment="Center"   
-                                            VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#1976D2"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="ActionButtonStyle" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
-            <Setter Property="Background" Value="#4CAF50"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#388E3C"/>
+                    <Setter Property="Background" Value="#D0D0D0"/>
+                    <Setter Property="BorderBrush" Value="#999999"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#C0C0C0"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="EditButtonStyle" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
-            <Setter Property="Background" Value="#FF9800"/>
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ConservativeButtonStyle}">
+            <Setter Property="Background" Value="#4A90E2"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#357ABD"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#F57C00"/>
+                    <Setter Property="Background" Value="#357ABD"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="DeleteButtonStyle" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
-            <Setter Property="Background" Value="#F44336"/>
+        <Style x:Key="WarningButtonStyle" TargetType="Button" BasedOn="{StaticResource ConservativeButtonStyle}">
+            <Setter Property="Background" Value="#D9534F"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#C9302C"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#D32F2F"/>
+                    <Setter Property="Background" Value="#C9302C"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <Border Grid.Row="0" CornerRadius="0,0,15,15">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="#2196F3" Offset="0"/>
-                    <GradientStop Color="#1976D2" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.Background>
-            <Border.Effect>
-                <DropShadowEffect Color="#000000" Direction="270" ShadowDepth="3" BlurRadius="10" Opacity="0.3"/>
-            </Border.Effect>
-
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="GESTIÓN DE USUARIOS"   
-                         FontSize="20" FontWeight="Bold" Foreground="White"   
-                         HorizontalAlignment="Center"/>
-                <TextBlock Text="Administrar usuarios y roles del sistema"   
-                         FontSize="12" Foreground="#E3F2FD"   
-                         HorizontalAlignment="Center" Margin="0,5,0,0"/>
+        <!-- Header Simple -->
+        <Border Grid.Row="0" Background="White" BorderBrush="#CCCCCC" BorderThickness="1" Padding="15,10" Margin="0,0,0,10">
+            <StackPanel>
+                <TextBlock Text="Gestión de Usuarios"   
+                         FontSize="18" FontWeight="Bold"   
+                         Foreground="#333333"   
+                         HorizontalAlignment="Left"/>
+                <TextBlock Text="Administrar usuarios del sistema"   
+                         FontSize="12" Foreground="#666666"   
+                         Margin="0,5,0,0"/>
             </StackPanel>
         </Border>
 
-        <!-- Toolbar -->
-        <Border Grid.Row="1" Background="White" Padding="20,15" Margin="15,15,15,0" CornerRadius="10">
-            <Border.Effect>
-                <DropShadowEffect Color="#000000" Direction="270" ShadowDepth="1" BlurRadius="5" Opacity="0.1"/>
-            </Border.Effect>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <!-- Toolbar Simple -->
+        <Border Grid.Row="1" Background="White" BorderBrush="#CCCCCC" BorderThickness="1" Padding="10" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal">
                 <Button x:Name="btnAgregarUsuario"   
-                        Style="{StaticResource ActionButtonStyle}"  
-                        Content="AGREGAR USUARIO"   
+                        Style="{StaticResource PrimaryButtonStyle}"  
+                        Content="Agregar Usuario"   
                         Click="btnAgregarUsuario_Click"/>
 
                 <Button x:Name="btnEditarUsuario"   
-                        Style="{StaticResource EditButtonStyle}"  
-                        Content="EDITAR"   
+                        Style="{StaticResource ConservativeButtonStyle}"  
+                        Content="Editar"   
                         IsEnabled="False"  
                         Click="btnEditarUsuario_Click"/>
 
                 <Button x:Name="btnEliminarUsuario"   
-                        Style="{StaticResource DeleteButtonStyle}"  
-                        Content="ELIMINAR"   
+                        Style="{StaticResource WarningButtonStyle}"  
+                        Content="Eliminar"   
                         IsEnabled="False"  
                         Click="btnEliminarUsuario_Click"/>
             </StackPanel>
         </Border>
 
-        <!-- DataGrid -->
-        <Border Grid.Row="2" Background="White" Margin="15" CornerRadius="10" Padding="0">
-            <Border.Effect>
-                <DropShadowEffect Color="#000000" Direction="270" ShadowDepth="2" BlurRadius="8" Opacity="0.1"/>
-            </Border.Effect>
-
+        <!-- DataGrid Conservador -->
+        <Border Grid.Row="2" Background="White" BorderBrush="#CCCCCC" BorderThickness="1">
             <DataGrid x:Name="dgUsuarios"   
                       IsReadOnly="True"   
                       AutoGenerateColumns="False"   
@@ -137,37 +104,39 @@
                       SelectionChanged="dgUsuarios_SelectionChanged"  
                       Background="White"  
                       BorderThickness="0"  
-                      GridLinesVisibility="Horizontal"  
-                      HorizontalGridLinesBrush="#F5F5F5"  
-                      AlternatingRowBackground="#FAFAFA"  
+                      GridLinesVisibility="All"  
+                      HorizontalGridLinesBrush="#E0E0E0"  
+                      VerticalGridLinesBrush="#E0E0E0"  
+                      AlternatingRowBackground="#F9F9F9"  
                       RowBackground="White"  
-                      FontSize="13"  
-                      RowHeight="45">
+                      FontSize="12"  
+                      FontFamily="Segoe UI"  
+                      RowHeight="35">
 
                 <DataGrid.Resources>
                     <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="#E3F2FD"/>
-                        <Setter Property="Foreground" Value="#1976D2"/>
+                        <Setter Property="Background" Value="#F0F0F0"/>
+                        <Setter Property="Foreground" Value="#333333"/>
                         <Setter Property="FontWeight" Value="Bold"/>
-                        <Setter Property="FontSize" Value="14"/>
-                        <Setter Property="Padding" Value="15,12"/>
-                        <Setter Property="BorderBrush" Value="#BBDEFB"/>
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="Padding" Value="8,6"/>
+                        <Setter Property="BorderBrush" Value="#CCCCCC"/>
                         <Setter Property="BorderThickness" Value="0,0,1,1"/>
                         <Setter Property="HorizontalContentAlignment" Value="Left"/>
                     </Style>
                     <Style TargetType="DataGridRow">
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#E3F2FD"/>
+                                <Setter Property="Background" Value="#E8F4FD"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="#BBDEFB"/>
-                                <Setter Property="Foreground" Value="#1976D2"/>
+                                <Setter Property="Background" Value="#D1E7DD"/>
+                                <Setter Property="Foreground" Value="#333333"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                     <Style TargetType="DataGridCell">
-                        <Setter Property="Padding" Value="15,8"/>
+                        <Setter Property="Padding" Value="8,4"/>
                         <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                     </Style>
@@ -179,36 +148,22 @@
                     <DataGridTemplateColumn Header="Estado" Width="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="12" Padding="8,4" HorizontalAlignment="Center">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
+                                <TextBlock HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="11">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Activo}" Value="True">
-                                                    <Setter Property="Background" Value="#D4EDDA"/>
+                                                    <Setter Property="Text" Value="ACTIVO"/>
+                                                    <Setter Property="Foreground" Value="#28A745"/>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Activo}" Value="False">
-                                                    <Setter Property="Background" Value="#F8D7DA"/>
+                                                    <Setter Property="Text" Value="INACTIVO"/>
+                                                    <Setter Property="Foreground" Value="#DC3545"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Border.Style>
-                                    <TextBlock HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="12">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Activo}" Value="True">
-                                                        <Setter Property="Text" Value="ACTIVO"/>
-                                                        <Setter Property="Foreground" Value="#155724"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Activo}" Value="False">
-                                                        <Setter Property="Text" Value="INACTIVO"/>
-                                                        <Setter Property="Foreground" Value="#721C24"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </Border>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -216,36 +171,27 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Click="btnToggleActivo_Click"  
-                    Tag="{Binding}"  
-                    FontSize="11"  
-                    Padding="8,4"  
-                    Margin="5,0">
+                                        Tag="{Binding}"  
+                                        FontSize="10"  
+                                        Padding="6,3"  
+                                        Margin="2,0"  
+                                        Style="{StaticResource ConservativeButtonStyle}">
                                     <Button.Content>
                                         <TextBlock>
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Activo}" Value="True">
-                                                            <Setter Property="Text" Value="DESACTIVAR"/>
+                                                            <Setter Property="Text" Value="Desactivar"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Activo}" Value="False">
-                                                            <Setter Property="Text" Value="ACTIVAR"/>
+                                                            <Setter Property="Text" Value="Activar"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
                                     </Button.Content>
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
-                                            <Setter Property="Background" Value="#28A745"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Activo}" Value="False">
-                                                    <Setter Property="Background" Value="#DC3545"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
                                 </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

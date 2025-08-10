@@ -135,7 +135,14 @@ namespace GestorDeInventario
 
         private void GenerarReporteMovimientos(DateTime fechaInicio, DateTime fechaFin)
         {
-            // Muestra datos relevantes en la DataGrid
+            // Actualizar el título con el rango de fechas  
+            var tituloSeccion = this.FindName("txtTituloSeccion") as TextBlock;
+            if (tituloSeccion != null)
+            {
+                tituloSeccion.Text = $"MOVIMIENTOS DE INVENTARIO - {fechaInicio:dd/MM/yyyy} al {fechaFin:dd/MM/yyyy}";
+            }
+
+            // Resto del código existente...  
             var reporteData = _context.TransaccionesInventario
                 .Where(t => t.FechaTransaccion >= fechaInicio && t.FechaTransaccion <= fechaFin)
                 .Include(t => t.Producto)
@@ -163,6 +170,33 @@ namespace GestorDeInventario
                         var worksheet = excelPackage.Workbook.Worksheets.Add("Reporte");
                         var items = dgReportes.ItemsSource as System.Collections.IEnumerable;
 
+                        // Obtener el tipo de reporte seleccionado  
+                        var selectedReport = ((ComboBoxItem)cmbReportes.SelectedItem).Content.ToString();
+
+                        int currentRow = 1;
+
+                        // Agregar título del reporte  
+                        worksheet.Cells[currentRow, 1].Value = selectedReport.ToUpper();
+                        worksheet.Cells[currentRow, 1].Style.Font.Bold = true;
+                        worksheet.Cells[currentRow, 1].Style.Font.Size = 16;
+                        currentRow += 2;
+
+                        // Si es reporte de movimientos y hay fechas seleccionadas, agregar el rango  
+                        if (selectedReport == "Movimientos de Inventario (Rango de Fechas)" &&
+                            dpFechaInicio.SelectedDate.HasValue && dpFechaFin.SelectedDate.HasValue)
+                        {
+                            string rangoFechas = $"Período: {dpFechaInicio.SelectedDate.Value:dd/MM/yyyy} al {dpFechaFin.SelectedDate.Value:dd/MM/yyyy}";
+                            worksheet.Cells[currentRow, 1].Value = rangoFechas;
+                            worksheet.Cells[currentRow, 1].Style.Font.Bold = true;
+                            worksheet.Cells[currentRow, 1].Style.Font.Size = 12;
+                            currentRow += 2;
+                        }
+
+                        // Agregar fecha de generación  
+                        worksheet.Cells[currentRow, 1].Value = $"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}";
+                        worksheet.Cells[currentRow, 1].Style.Font.Italic = true;
+                        currentRow += 2;
+
                         if (items != null)
                         {
                             var dataList = items.Cast<object>().ToList();
@@ -170,26 +204,30 @@ namespace GestorDeInventario
                             if (dataList.Any())
                             {
                                 var properties = dataList.First().GetType().GetProperties();
+
+                                // Agregar encabezados de columnas  
                                 for (int i = 0; i < properties.Length; i++)
                                 {
-                                    worksheet.Cells[1, i + 1].Value = properties[i].Name;
+                                    worksheet.Cells[currentRow, i + 1].Value = properties[i].Name;
+                                    worksheet.Cells[currentRow, i + 1].Style.Font.Bold = true;
                                 }
+                                currentRow++;
 
+                                // Agregar datos  
                                 for (int i = 0; i < dataList.Count; i++)
                                 {
                                     for (int j = 0; j < properties.Length; j++)
                                     {
-                                        worksheet.Cells[i + 2, j + 1].Value = properties[j].GetValue(dataList[i]);
+                                        worksheet.Cells[currentRow + i, j + 1].Value = properties[j].GetValue(dataList[i]);
                                     }
                                 }
 
-                                worksheet.Cells[1, 1, 1, worksheet.Dimension.Columns].Style.Font.Bold = true;
-                                worksheet.Cells[1, 1, worksheet.Dimension.Rows, worksheet.Dimension.Columns].AutoFitColumns();
+                                // Aplicar formato y autoajustar columnas  
+                                worksheet.Cells[1, 1, currentRow + dataList.Count - 1, properties.Length].AutoFitColumns();
                             }
                         }
 
-                        // Genera un nombre de archivo dinámico
-                        var selectedReport = ((ComboBoxItem)cmbReportes.SelectedItem).Content.ToString();
+                        // Genera un nombre de archivo dinámico  
                         string fileName = $"Reporte_{selectedReport.Replace(" ", "_")}_{DateTime.Now:yyyyMMdd}.xlsx";
 
                         var saveFileDialog = new Microsoft.Win32.SaveFileDialog

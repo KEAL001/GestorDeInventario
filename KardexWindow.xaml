@@ -10,7 +10,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
-            <Label Content="Buscar Producto (Nombre o Descripción):" VerticalAlignment="Center" FontWeight="Bold"/>
+            <Label Content="Buscar Producto (Nombre, Descripción, Categoría o Proveedor):" VerticalAlignment="Center" FontWeight="Bold"/>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBox x:Name="txtBuscarProducto" Width="300" Margin="0,0,10,0" KeyDown="txtBuscarProducto_KeyDown"/>
                 <Button x:Name="btnBuscarProducto" Content="Buscar" Width="80" Click="btnBuscarProducto_Click"/>
@@ -19,23 +19,16 @@
             <ListView x:Name="lvResultadosBusqueda" Height="100" Margin="0,0,0,10" SelectionChanged="lvResultadosBusqueda_SelectionChanged">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="200"/>
+                        <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="150"/>
                         <GridViewColumn Header="SKU" DisplayMemberBinding="{Binding SKU}" Width="100"/>
-                        <GridViewColumn Header="Descripción" DisplayMemberBinding="{Binding Descripcion}" Width="NaN"/>
+                        <GridViewColumn Header="Categoría" DisplayMemberBinding="{Binding Categoria.NombreCategoria}" Width="150"/>
+                        <GridViewColumn Header="Proveedor" DisplayMemberBinding="{Binding Proveedor.NombreProveedor}" Width="150"/>
+                        <GridViewColumn Header="Stock Actual" DisplayMemberBinding="{Binding StockActual}" Width="150"/>
+                        <GridViewColumn Header="Descripción" DisplayMemberBinding="{Binding Descripcion}" Width="Auto"/>
                     </GridView>
                 </ListView.View>
             </ListView>
 
-            <StackPanel x:Name="pnlDetallesProducto" Orientation="Vertical" Margin="0,10,0,0">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="SKU:" FontWeight="Bold"/>
-                    <TextBlock x:Name="lblSKU" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Descripción:" FontWeight="Bold"/>
-                    <TextBlock x:Name="lblDescripcion" VerticalAlignment="Center" Margin="5,0,0,0" TextWrapping="Wrap"/>
-                </StackPanel>
-            </StackPanel>
         </StackPanel>
 
         <DataGrid x:Name="dgKardex" Grid.Row="1" Margin="10" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">

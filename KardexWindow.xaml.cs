@@ -35,14 +35,26 @@ namespace GestorDeInventario
                 return;
             }
 
-            // Realiza la búsqueda de productos por nombre o descripción.
+            // Realiza la búsqueda de productos por nombre, descripción, categoría y proveedor    
             var resultados = _context.Productos
-                                     .Where(p => p.Nombre.ToLower().Contains(busqueda) ||
-                                                 p.Descripcion.ToLower().Contains(busqueda))
-                                     .ToList();
+                .Include(p => p.Categoria)
+                .Include(p => p.Proveedor)
+                .Where(p => p.Nombre.ToLower().Contains(busqueda) ||
+                           p.Descripcion.ToLower().Contains(busqueda) ||
+                           p.Categoria.NombreCategoria.ToLower().Contains(busqueda) ||
+                           p.Proveedor.NombreProveedor.ToLower().Contains(busqueda))
+                .ToList();
 
+            // Calcular stock actual para cada producto  
             if (resultados.Any())
             {
+                var inventarioService = new InventarioService(_context);
+                foreach (var producto in resultados)
+                {
+                    // Agregar la propiedad StockActual calculada  
+                    producto.StockActual = inventarioService.ObtenerStockActual(producto.ID);
+                }
+
                 lvResultadosBusqueda.ItemsSource = resultados;
             }
             else
@@ -51,9 +63,6 @@ namespace GestorDeInventario
                 MessageBox.Show("No se encontraron productos que coincidan con la búsqueda.", "Información");
             }
 
-            // Limpiar los detalles y el kardex de la selección anterior.
-            lblSKU.Text = string.Empty;
-            lblDescripcion.Text = string.Empty;
             dgKardex.ItemsSource = null;
         }
 
@@ -62,8 +71,8 @@ namespace GestorDeInventario
             if (lvResultadosBusqueda.SelectedItem is Producto productoSeleccionado)
             {
                 // Muestra los detalles del producto seleccionado
-                lblSKU.Text = productoSeleccionado.SKU;
-                lblDescripcion.Text = productoSeleccionado.Descripcion;
+                //lblSKU.Text = productoSeleccionado.SKU;
+                //lblDescripcion.Text = productoSeleccionado.Descripcion;
 
                 // Carga el kardex del producto seleccionado
                 CargarKardex(productoSeleccionado.ID);
