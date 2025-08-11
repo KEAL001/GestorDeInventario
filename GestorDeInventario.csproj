@@ -6,10 +6,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+	  <ApplicationIcon>Images\app-icon.ico</ApplicationIcon>  
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Fonts\Font Awesome 5 Free-Solid-900.otf" />
+    <None Remove="Images\app-icon.ico" />
     <None Remove="Images\logo.png" />
   </ItemGroup>
 
@@ -30,6 +32,9 @@
   <ItemGroup>
     <Resource Include="Fonts\Font Awesome 5 Free-Solid-900.otf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\app-icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
